@@ -1,0 +1,11 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8.8)
+
+FIND_PACKAGE(deal.II 8.5.0 REQUIRED
+  HINTS ${DEAL_II_DIR} ../ ../../ $ENV{DEAL_II_DIR}
+  )
+DEAL_II_INITIALIZE_CACHED_VARIABLES()
+
+PROJECT(write_matrix)
+
+ADD_EXECUTABLE(write_matrix write_dealii_matrix.cc)
+DEAL_II_SETUP_TARGET(write_matrix)
