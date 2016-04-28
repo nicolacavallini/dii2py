@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Oct 28 16:28:02 2014
+Reading `dealii::SparseMatrix` in `python`. `dealii` is supposed to be
+compiled with the option -DDEAL_II_WITH_64BIT_INDICES=ON
 
 @author: nicola
 """
@@ -8,10 +9,22 @@ import numpy as np
 from scipy.sparse import *
 
 def read_sparsity_pattern(filename):
+    """
+    Reading the `dealii::SparsityPattern`.
+
+    Parameters
+    ----------
+    filename : string
+        Filename that stores the sparsity pattern.
+
+    Examples
+    --------
+    >> (rows,cols,rowstart, columns) = read_sparsity_pattern('sp')
+    """
     header = ''
     with open(filename,'r') as f:
         byte = f.read(1)
-        while (byte!=']'):        
+        while (byte!=']'):
             header += byte
             byte = f.read(1)
         header = header[1:]
@@ -22,18 +35,31 @@ def read_sparsity_pattern(filename):
         max_vec_len,\
         max_row_length,\
         compressed,\
-        store_diagonal_first_in_row] = data    
+        store_diagonal_first_in_row] = data
         brakets = f.read(1)
         rowstart = np.fromfile(f, dtype=np.uint64, count=rows+1)
         brakets = f.read(2)
         columns =  np.fromfile(f, dtype=np.uint64, count=max_vec_len)
     return rows,cols,rowstart, columns
-    
+
 def read_matrix_values(filename):
+        """
+        Reading the values for `dealii::SparseMatrix<double>`.
+
+        Parameters
+        ----------
+        filename : string
+            Filename that stores the values.
+
+        Examples
+        --------
+        >> val = read_matrix_values('vls')
+        >> matrix = csr_matrix((val, columns, rowstart), (rows, cols))
+        """
     header = ''
     with open(filename,'r') as f:
         byte = f.read(1)
-        while (byte!=']'):        
+        while (byte!=']'):
             header += byte
             byte = f.read(1)
         header = header[1:]
@@ -41,11 +67,11 @@ def read_matrix_values(filename):
         brakets = f.read(1)
         val = np.fromfile(f, dtype=np.float64, count=max_len)
     return val
-        
+
 if __name__ == "__main__":
-    
+
     (rows,cols,rowstart, columns) = read_sparsity_pattern('sp')
     val = read_matrix_values('vls')
-    
+
     matrix = csr_matrix((val, columns, rowstart), (rows, cols))
     print matrix.todense()
