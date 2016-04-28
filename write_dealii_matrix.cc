@@ -14,7 +14,7 @@ int main()
     const s_t m = 5;
     SparsityPattern sp(m,m,3);
     SparseMatrix<double> matrix;
-    
+
     for (s_t i = 0; i<m ; i++)
        sp.add(i,i);
 
@@ -42,7 +42,7 @@ int main()
     out_file.close();
     out_file.clear();
 
-    out_file.open("vls");
+    out_file.open("sp");
     matrix.block_write(out_file);
     out_file.close();
 

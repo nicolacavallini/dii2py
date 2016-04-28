@@ -43,19 +43,19 @@ def read_sparsity_pattern(filename):
     return rows,cols,rowstart, columns
 
 def read_matrix_values(filename):
-        """
-        Reading the values for `dealii::SparseMatrix<double>`.
+    """
+    Reading the values for `dealii::SparseMatrix<double>`.
 
-        Parameters
-        ----------
-        filename : string
-            Filename that stores the values.
+    Parameters
+    ----------
+    filename : string
+        Filename that stores the values.
 
-        Examples
-        --------
-        >> val = read_matrix_values('vls')
-        >> matrix = csr_matrix((val, columns, rowstart), (rows, cols))
-        """
+    Examples
+    --------
+    >> val = read_matrix_values('vls')
+    >> matrix = csr_matrix((val, columns, rowstart), (rows, cols))
+    """
     header = ''
     with open(filename,'r') as f:
         byte = f.read(1)
@@ -70,8 +70,10 @@ def read_matrix_values(filename):
 
 if __name__ == "__main__":
 
-    (rows,cols,rowstart, columns) = read_sparsity_pattern('sp')
-    val = read_matrix_values('vls')
+    directory = './build/' # suppose you run the c++ in the build desirectory
+
+    (rows,cols,rowstart, columns) = read_sparsity_pattern(directory+'sp')
+    val = read_matrix_values(directory+'vls')
 
     matrix = csr_matrix((val, columns, rowstart), (rows, cols))
     print matrix.todense()
