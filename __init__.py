@@ -1,10 +1,6 @@
 import numpy as np
 import scipy.sparse as sp
 
-def stampa():
-    print 'sono un cretino'
-    return
-
 def read_sparsity_pattern(filename):
     """
     Reading the `dealii::SparsityPattern`.
