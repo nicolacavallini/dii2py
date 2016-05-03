@@ -80,6 +80,6 @@ def read_matrix(prefix):
     >> plt.show()
 
     """
-    (rows,cols,rowstart, columns) = read_sparsity_pattern(prefix+'sp')
-    val = read_matrix_values(prefix+'vls')
+    (rows,cols,rowstart, columns) = read_sparsity_pattern(prefix+'_sp')
+    val = read_matrix_values(prefix+'_vls')
     return sp.csr_matrix((val, columns, rowstart), (rows, cols))
