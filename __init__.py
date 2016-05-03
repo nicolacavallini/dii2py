@@ -69,6 +69,8 @@ def read_matrix(prefix):
     ----------
     prefix : string
         Prefix to prepend to the SparsityPattern and Values filenames.
+        Supposed the matrix has been saved `prefix_sp` and `prefix_vls`
+        for the SparsityPattern and Values respectively.
 
     Examples
     --------
@@ -78,6 +80,6 @@ def read_matrix(prefix):
     >> plt.show()
 
     """
-    (rows,cols,rowstart, columns) = read_sparsity_pattern(directory+'sp')
-    val = read_matrix_values(directory+'vls')
+    (rows,cols,rowstart, columns) = read_sparsity_pattern(prefix+'sp')
+    val = read_matrix_values(prefix+'vls')
     return sp.csr_matrix((val, columns, rowstart), (rows, cols))
