@@ -42,7 +42,7 @@ int main()
     out_file.close();
     out_file.clear();
 
-    out_file.open("sp");
+    out_file.open("vls");
     matrix.block_write(out_file);
     out_file.close();
 
