@@ -83,3 +83,42 @@ def read_matrix(prefix):
     (rows,cols,rowstart, columns) = read_sparsity_pattern(prefix+'_sp')
     val = read_matrix_values(prefix+'_vls')
     return sp.csr_matrix((val, columns, rowstart), (rows, cols))
+
+def in_house_cg(A, b, mat_vec):
+    b = np.reshape(b,(b.shape[0],1))
+    print b.shape
+    xk = np.zeros(b.shape)
+    rk = b - A.dot(xk)
+    zk = mat_vec(rk)
+    zk = np.reshape(zk,(b.shape[0],1))
+    pk = zk
+    ck = b - A.dot(zk)
+    print 'ck norm = ', np.linalg.norm(ck[:,0])
+    print ck
+    for k in range(100):
+        num = rk.transpose().dot(zk)[0]
+        den = A.dot(pk)
+        den = den.transpose().dot(den)
+        alpha = num/den
+        print alpha
+        xk1 = xk + alpha*pk
+        rk1 = rk - alpha * A.dot(pk)
+        zk1 = mat_vec(rk1[:,0])
+        zk1 = np.reshape(zk1,(b.shape[0],1))
+        num = zk1.transpose().dot(rk1)[0][0]
+        den = zk.transpose().dot(rk)[0][0]
+        beta = num/den
+        pk1 = zk1 + beta * pk
+
+        xk = xk1
+        rk = rk1
+        zk = zk1
+        pk = pk1
+
+
+        print num
+        print den
+
+
+
+    return
